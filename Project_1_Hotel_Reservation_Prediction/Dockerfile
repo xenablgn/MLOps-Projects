@@ -18,8 +18,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libssl-dev \
     libffi-dev \
     python3-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    libarrow-dev \
+    libparquet-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy all files from the current directory on the host to the /app directory in the container
 COPY . .
