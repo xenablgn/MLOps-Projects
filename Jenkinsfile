@@ -77,8 +77,10 @@ pipeline {
                             docker push gcr.io/$GCP_PROJECT/mlops-project1:latest
                         '''
                     }
-
-        stage('Deploy to Google Cloud Run'){
+                    }
+                }
+            }
+            stage('Deploy to Google Cloud Run'){
             steps{
                 withCredentials([file(credentialsId: 'gcp-key' , variable : 'GOOGLE_APPLICATION_CREDENTIALS')]){
                     script{
