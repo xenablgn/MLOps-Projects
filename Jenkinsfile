@@ -72,6 +72,7 @@ pipeline {
                             gcloud config set project $GCP_PROJECT
                             gcloud auth configure-docker --quiet
 
+                            cd Project_1_Hotel_Reservation_Prediction
                             docker build -t gcr.io/$GCP_PROJECT/mlops-project1:latest .
                             docker push gcr.io/$GCP_PROJECT/mlops-project1:latest
                         '''
