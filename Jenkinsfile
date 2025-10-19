@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         VENV_DIR = "venv"
-        GCP_PROJECT = "mlops-project1"
+        GCP_PROJECT = "plenary-edition-475508-v1"
         GCLOUD_PATH = "/var/jenkins_home/gcloud/google-cloud-sdk/bin"
     }
 
