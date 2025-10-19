@@ -17,10 +17,12 @@ pipeline{
             steps {
                 echo 'Setting up Python Virtual Environment...'
                 sh '''
-                    python3 -m venv ${VENV_DIR}
-                    . ${VENV_DIR}/bin/activate
+                    cd "Project 1 - Hotel Reservation Prediction: Mlflow, Jenkins and GCP Deployment"
+                    python3 -m venv venv
+                    . venv/bin/activate
                     pip install --upgrade pip
                     pip install -e .
+                    # ...other commands...
                 '''
             }
         }
