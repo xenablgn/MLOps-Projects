@@ -8,8 +8,8 @@ pipeline {
 
     environment {
         VENV_DIR = "venv"
-        GCP_PROJECT ="mlops-project1"
-        GCLOUD_PATH= "/var/jenkins_home/gcloud/google-cloud-sdk/bin"
+        GCP_PROJECT = "mlops-project1"
+        GCLOUD_PATH = "/var/jenkins_home/gcloud/google-cloud-sdk/bin"
     }
 
     stages {
@@ -32,7 +32,6 @@ pipeline {
                         url: 'https://github.com/xenablgn/MLOps-Projects.git'
                     ]]
                 )
-                // Debug: verify contents after cloning
                 sh 'echo "Repository structure:" && ls -R'
             }
         }
@@ -41,10 +40,10 @@ pipeline {
             steps {
                 echo 'Setting up Python Virtual Environment...'
                 sh '''
-                    cd Project_1_Hotel_Reservation_Prediction && \
-                    python3 -m venv venv && \
-                    . venv/bin/activate && \
-                    pip install --upgrade pip && \
+                    cd Project_1_Hotel_Reservation_Prediction
+                    python3 -m venv $VENV_DIR
+                    . $VENV_DIR/bin/activate
+                    pip install --upgrade pip
                     pip install -e .
                 '''
             }
@@ -54,8 +53,8 @@ pipeline {
             steps {
                 echo 'Verifying environment setup...'
                 sh '''
-                    cd Project_1_Hotel_Reservation_Prediction && \
-                    . venv/bin/activate && \
+                    cd Project_1_Hotel_Reservation_Prediction
+                    . $VENV_DIR/bin/activate
                     pip list
                 '''
             }
@@ -68,42 +67,52 @@ pipeline {
                         echo 'Building and Pushing Docker Image to GCR...'
                         sh '''
                             export PATH=$GCLOUD_PATH:$PATH
+
+                            # Authenticate service account
                             gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+
+                            # Set project
                             gcloud config set project $GCP_PROJECT
-                            gcloud auth configure-docker --quiet
+
+                            # Configure Docker to authenticate with GCR
+                            gcloud auth configure-docker gcr.io --quiet
 
                             cd Project_1_Hotel_Reservation_Prediction
+
+                            # Build Docker image
                             docker build -t gcr.io/$GCP_PROJECT/mlops-project1:latest .
+
+                            # Push Docker image
                             docker push gcr.io/$GCP_PROJECT/mlops-project1:latest
                         '''
                     }
-                    }
                 }
             }
-            stage('Deploy to Google Cloud Run'){
-            steps{
-                withCredentials([file(credentialsId: 'gcp-key' , variable : 'GOOGLE_APPLICATION_CREDENTIALS')]){
-                    script{
-                        echo 'Deploy to Google Cloud Run.............'
+        }
+
+        stage('Deploy to Google Cloud Run') {
+            steps {
+                withCredentials([file(credentialsId: 'gcp-key', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+                    script {
+                        echo 'Deploying to Google Cloud Run...'
                         sh '''
-                        export PATH=$PATH:${GCLOUD_PATH}
+                            export PATH=$GCLOUD_PATH:$PATH
 
-                        gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
+                            # Authenticate service account
+                            gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
 
-                        gcloud config set project ${GCP_PROJECT}
+                            # Set project
+                            gcloud config set project $GCP_PROJECT
 
-                        gcloud run deploy mlops-project1 \
-                            --image=gcr.io/$GCP_PROJECT/mlops-project1:latest \
-                            --platform=managed \
-                            --region=us-central1 \
-                            --allow-unauthenticated
-                            
+                            # Deploy service
+                            gcloud run deploy mlops-project1 \
+                                --image=gcr.io/$GCP_PROJECT/mlops-project1:latest \
+                                --platform=managed \
+                                --region=us-central1 \
+                                --allow-unauthenticated
                         '''
                     }
-                
-                
                 }
-
             }
         }
 
