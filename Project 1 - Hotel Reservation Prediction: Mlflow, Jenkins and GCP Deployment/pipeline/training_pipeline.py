@@ -8,6 +8,7 @@ from config.paths_config import *
 
 
 def main():
+    """Main function to run the training pipeline."""
     # 1: Data Ingestion
     data_ingestion = DataIngestion(read_yaml_file(CONFIG_PATH))
     data_ingestion.run()

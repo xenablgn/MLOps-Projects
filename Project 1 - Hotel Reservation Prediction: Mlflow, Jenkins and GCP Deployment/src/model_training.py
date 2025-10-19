@@ -26,6 +26,8 @@ logger = get_logger(__name__)
 
 class ModelTraining:
     def __init__(self, train_path, test_path, model_output_path):
+        """Class for training and evaluating the XGBoost model."""
+        
         self.train_path = train_path
         self.test_path = test_path
         self.model_output_path = model_output_path

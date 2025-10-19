@@ -2,6 +2,8 @@ import traceback
 
 class CustomException(Exception):
     def __init__(self, error_message: str, error_detail: Exception):
+        """Custom exception class to handle exceptions with detailed traceback information."""
+        
         super().__init__(error_message)
         self.error_message = self.get_detailed_error_message(error_message, error_detail)
 
