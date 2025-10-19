@@ -1,4 +1,4 @@
-pipeline{
+pipeline {
     agent any
 
     environment {
@@ -6,6 +6,12 @@ pipeline{
     }
 
     stages {
+        stage('Clean Workspace') {
+            steps {
+                deleteDir()
+            }
+        }
+
         stage('Cloning Git Repository to Jenkins') {
             steps {
                 echo 'Cloning Git Repository to Jenkins...'
@@ -26,6 +32,5 @@ pipeline{
                 '''
             }
         }
-
-    }   
+    }
 }
