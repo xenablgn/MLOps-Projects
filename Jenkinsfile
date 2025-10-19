@@ -80,7 +80,7 @@ pipeline {
                             cd Project_1_Hotel_Reservation_Prediction
 
                             # Build Docker image
-                            docker build -t gcr.io/$GCP_PROJECT/mlops-project1:latest .
+                            docker build --platform linux/amd64 -t gcr.io/$GCP_PROJECT/mlops-project1:latest .
 
                             # Push Docker image
                             docker push gcr.io/$GCP_PROJECT/mlops-project1:latest
