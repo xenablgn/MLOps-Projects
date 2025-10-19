@@ -13,6 +13,11 @@ WORKDIR /app
 # Install system dependencies required by LightGBM (libgomp1 is needed for parallel processing)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp1 \
+    build-essential \
+    cmake \
+    libssl-dev \
+    libffi-dev \
+    python3-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
