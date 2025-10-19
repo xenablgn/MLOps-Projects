@@ -23,7 +23,6 @@ pipeline {
             steps {
                 echo 'Setting up Python Virtual Environment...'
                 sh '''
-                    cd Project_1_Hotel_Reservation_Prediction
                     python3 -m venv venv
                     . venv/bin/activate
                     pip install --upgrade pip
