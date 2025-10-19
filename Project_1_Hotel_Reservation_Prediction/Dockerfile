@@ -19,9 +19,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libffi-dev \
     python3-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-    
+
 # Copy all files from the current directory on the host to the /app directory in the container
 COPY . .
+
+RUN pip install --no-cache-dir pyarrow
 
 # Install the Python package in editable mode (-e .), allowing changes to the source code without reinstalling
 RUN pip install --no-cache-dir -e .
