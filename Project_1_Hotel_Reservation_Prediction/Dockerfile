@@ -1,5 +1,5 @@
 # Use a lightweight Python image as the base for faster builds and smaller image size
-FROM python:slim
+FROM python:3.10-bullseye
 
 # Set environment variables:
 # - PYTHONDONTWRITEBYTECODE=1: Prevents Python from writing .pyc files to disk, keeping the container clean
@@ -18,10 +18,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libssl-dev \
     libffi-dev \
     python3-dev \
-    libarrow-dev \
-    libparquet-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-
+    
 # Copy all files from the current directory on the host to the /app directory in the container
 COPY . .
 
