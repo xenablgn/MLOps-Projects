@@ -6,4 +6,4 @@ __pycache__
 *.pyc
 MLOPS_PROJECT_1_HOTEL_RESERVATION_PREDICTION.egg-info
 .DS_Store
-venv/
+.vscode/
