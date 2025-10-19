@@ -25,6 +25,8 @@ COPY . .
 
 RUN pip install --no-cache-dir pyarrow
 
+RUN apt-get update && apt-get install -y libarrow-dev
+
 # Install the Python package in editable mode (-e .), allowing changes to the source code without reinstalling
 RUN pip install --no-cache-dir -e .
 
