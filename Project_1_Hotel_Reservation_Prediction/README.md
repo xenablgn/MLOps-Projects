@@ -1,6 +1,35 @@
-# Project 1: Hotel Reservation Prediction - CI/CD Setup with Jenkins and Docker
 
-This project sets up a **CI/CD environment for ML projects** using **Jenkins** and **Docker**, with Google Cloud integration. Follow the steps below to set up your environment and deploy your project.
+# Project 1: Hotel Reservation Prediction - CI/CD Setup with Jenkins, Docker, and Google Cloud
+
+This project implements a full MLOps pipeline for serving a machine learning model that predicts hotel reservation cancellations. The solution leverages:
+
+- **Python** for data processing, feature engineering, and model training (scikit-learn, pandas, etc.)
+- **MLflow** for experiment tracking and model management
+- **Docker** to containerize the ML application and its dependencies
+- **Jenkins** for orchestrating CI/CD pipelines, including automated testing, building, and deployment
+- **Docker-in-Docker (DinD)** to enable Jenkins to build and push Docker images within its own container
+- **Google Cloud Platform (GCP)** for scalable deployment using:
+  - **Google Container Registry (GCR)** to store Docker images
+  - **Google Cloud Run** to serve the model as a managed, serverless web service
+
+**Pipeline Overview:**
+
+1. **Source Code Management:** Code is managed in GitHub and automatically checked out by Jenkins.
+2. **CI/CD Pipeline:** Jenkins executes a multi-stage pipeline:
+   - Cleans the workspace
+   - Sets up a Python virtual environment and installs dependencies
+   - Runs unit tests and linting (if configured)
+   - Builds a Docker image for the ML service
+   - Pushes the image to GCR
+   - Deploys the latest image to Google Cloud Run
+3. **Model Serving:** The deployed service exposes a REST API for hotel reservation cancellation prediction.
+4. **Security & Automation:** Credentials and secrets are managed via Jenkins credentials and GCP service accounts. All steps are automated for reproducibility and reliability.
+
+**Key Technologies:** Python, scikit-learn, MLflow, Docker, Jenkins, Google Cloud SDK, GCR, Cloud Run.
+
+---
+
+Follow the steps below to set up your environment and deploy your project.
 
 ---
 
